@@ -1083,7 +1083,7 @@ trackerCapture.controller('DataEntryController',
 
     $scope.showMap = function (event) {
         var modalInstance = $modal.open({
-            templateUrl: '../dhis-web-commons/angular-forms/map.html',
+            templateUrl: '/dhis-web-commons/angular-forms/map.html',
             controller: 'MapController',
             windowClass: 'modal-full-window',
             resolve: {

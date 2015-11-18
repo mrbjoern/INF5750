@@ -38,7 +38,7 @@ var trackerCaptureServices = angular.module('trackerCaptureServices', ['ngResour
     
     var getDefaultLayout = function(customLayout){
         var dashboardLayout = {customLayout: customLayout, defaultLayout: defaultLayout};        
-        var promise = $http.get(  '../api/systemSettings/keyTrackerDashboardDefaultLayout' ).then(function(response){
+        var promise = $http.get(  '/api/systemSettings/keyTrackerDashboardDefaultLayout' ).then(function(response){
             angular.extend(dashboardLayout.defaultLayout, response.data);
             return dashboardLayout;
         }, function(){
@@ -50,9 +50,9 @@ var trackerCaptureServices = angular.module('trackerCaptureServices', ['ngResour
     return {
         saveLayout: function(dashboardLayout, saveAsDefault){
             var layout = JSON.stringify(dashboardLayout);
-            var url = '../api/userSettings/keyTrackerDashboardLayout?value=';            
+            var url = '/api/userSettings/keyTrackerDashboardLayout?value=';            
             if(saveAsDefault){
-                url = '../api/systemSettings/keyTrackerDashboardDefaultLayout?value=';
+                url = '/api/systemSettings/keyTrackerDashboardDefaultLayout?value=';
             }
             var promise = $http.post( url + layout, '', {headers: {'Content-Type': 'text/plain;charset=utf-8'}}).then(function(response){
                 return response.data;
@@ -60,7 +60,7 @@ var trackerCaptureServices = angular.module('trackerCaptureServices', ['ngResour
             return promise;            
         },
         get: function(){
-            var promise = $http.get(  '../api/userSettings/keyTrackerDashboardLayout' ).then(function(response){
+            var promise = $http.get(  '/api/userSettings/keyTrackerDashboardLayout' ).then(function(response){
                 return getDefaultLayout(response.data);
             }, function(){
                 return getDefaultLayout(null);

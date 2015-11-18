@@ -101,7 +101,7 @@ function ajax_login()
         var username = $('#username').val();
         var password = $('#password').val();
 
-        $.post('../dhis-web-commons-security/login.action', {
+        $.post('/dhis-web-commons-security/login.action', {
             'j_username': username,
             'j_password': password
         }).success(function()
@@ -170,7 +170,7 @@ function getUserRoles()
     
     var def = $.Deferred();
     var promise = def.promise();
-    promise = promise.then( getD2Object(null, 'USER_ROLES', '../api/me.json', 'fields=id,name,userCredentials[userRoles[id,authorities]]', 'sessionStorage') );
+    promise = promise.then( getD2Object(null, 'USER_ROLES', '/api/me.json', 'fields=id,name,userCredentials[userRoles[id,authorities]]', 'sessionStorage') );
     promise = promise.done(function(){});    
     def.resolve();
 }
@@ -179,7 +179,7 @@ function getCalendarSetting()
 {   
     var def = $.Deferred();
     var promise = def.promise();
-    promise = promise.then( getD2Object(null, 'CALENDAR_SETTING', '../api/systemSettings', 'key=keyCalendar&key=keyDateFormat', 'localStorage') );
+    promise = promise.then( getD2Object(null, 'CALENDAR_SETTING', '/api/systemSettings', 'key=keyCalendar&key=keyDateFormat', 'localStorage') );
     promise = promise.done(function(){});    
     def.resolve();    
 }
@@ -190,7 +190,7 @@ function getConstants()
         if(res.length > 0){
             return;
         }        
-        return getD2Objects('constants', 'constants', '../api/constants.json', 'paging=false&fields=id,name,displayName,value', 'idb');        
+        return getD2Objects('constants', 'constants', '/api/constants.json', 'paging=false&fields=id,name,displayName,value', 'idb');        
     });    
 }
 
@@ -200,7 +200,7 @@ function getRelationships()
         if(res.length > 0){
             return;
         }
-        return getD2Objects('relationshipTypes', 'relationshipTypes', '../api/relationshipTypes.json', 'paging=false&fields=id,name,aIsToB,bIsToA,displayName', 'idb');
+        return getD2Objects('relationshipTypes', 'relationshipTypes', '/api/relationshipTypes.json', 'paging=false&fields=id,name,aIsToB,bIsToA,displayName', 'idb');
     });    
 }
 
@@ -210,13 +210,13 @@ function getTrackedEntities()
         if(res.length > 0){
             return;
         }        
-        return getD2Objects('trackedEntities', 'trackedEntities', '../api/trackedEntities.json', 'paging=false&fields=id,name', 'idb');
+        return getD2Objects('trackedEntities', 'trackedEntities', '/api/trackedEntities.json', 'paging=false&fields=id,name', 'idb');
     });    
 }
 
 function getMetaPrograms()
 {
-    return getD2Objects('programs', 'programs', '../api/programs.json', 'filter=programType:eq:WITH_REGISTRATION&paging=false&fields=id,version,programTrackedEntityAttributes[trackedEntityAttribute[id,optionSet[id,version]]],programStages[id,name,version,minDaysFromStart,standardInterval,periodType,generatedByEnrollmentDate,excecutionDateLabel,repeatable,autoGenerateEvent,openAfterEnrollment,reportDateToUse,programStageDataElements[dataElement[optionSet[id,version]]]]', 'temp');
+    return getD2Objects('programs', 'programs', '/api/programs.json', 'filter=programType:eq:WITH_REGISTRATION&paging=false&fields=id,version,programTrackedEntityAttributes[trackedEntityAttribute[id,optionSet[id,version]]],programStages[id,name,version,minDaysFromStart,standardInterval,periodType,generatedByEnrollmentDate,excecutionDateLabel,repeatable,autoGenerateEvent,openAfterEnrollment,reportDateToUse,programStageDataElements[dataElement[optionSet[id,version]]]]', 'temp');
 }
 
 function getPrograms( programs )
@@ -269,7 +269,7 @@ function getProgram( id )
 {
     return function() {
         return $.ajax( {
-            url: '../api/programs/' + id + '.json',
+            url: '/api/programs/' + id + '.json',
             type: 'GET',
             data: 'fields=id,name,type,version,dataEntryMethod,enrollmentDateLabel,incidentDateLabel,displayIncidentDate,ignoreOverdueEvents,selectEnrollmentDatesInFuture,selectIncidentDatesInFuture,onlyEnrollOnce,externalAccess,displayOnAllOrgunit,registration,relationshipText,relationshipFromA,relatedProgram[id,name],relationshipType[id,name],trackedEntity[id,name,description],userRoles[id,name],organisationUnits[id,name],userRoles[id,name],programStages[id,name,version,minDaysFromStart,standardInterval,periodType,generatedByEnrollmentDate,excecutionDateLabel,repeatable,autoGenerateEvent,openAfterEnrollment,reportDateToUse],dataEntryForm[name,style,htmlCode,format],programTrackedEntityAttributes[displayInList,mandatory,allowFutureDate,trackedEntityAttribute[id,unique]]'
         }).done( function( program ){            
@@ -317,7 +317,7 @@ function getProgramStages( programs )
                     var p = d.promise();
                     dhis2.tc.store.get('programStages', programStage.id).done(function(obj) {
                         if(!obj || obj.version !== programStage.version) {
-                            promise = promise.then( getD2Object( programStage.id, 'programStages', '../api/programStages', 'fields=id,name,sortOrder,version,dataEntryForm,captureCoordinates,blockEntryForm,autoGenerateEvent,allowGenerateNextVisit,generatedByEnrollmentDate,remindCompleted,excecutionDateLabel,minDaysFromStart,repeatable,openAfterEnrollment,standardInterval,periodType,reportDateToUse,programStageSections[id,name,programStageDataElements[dataElement[id]]],programStageDataElements[displayInReports,allowProvidedElsewhere,allowFutureDate,compulsory,dataElement[id,code,name,description,formName,valueType,optionSetValue,optionSet[id]]]', 'idb' ) );
+                            promise = promise.then( getD2Object( programStage.id, 'programStages', '/api/programStages', 'fields=id,name,sortOrder,version,dataEntryForm,captureCoordinates,blockEntryForm,autoGenerateEvent,allowGenerateNextVisit,generatedByEnrollmentDate,remindCompleted,excecutionDateLabel,minDaysFromStart,repeatable,openAfterEnrollment,standardInterval,periodType,reportDateToUse,programStageSections[id,name,programStageDataElements[dataElement[id]]],programStageDataElements[displayInReports,allowProvidedElsewhere,allowFutureDate,compulsory,dataElement[id,code,name,description,formName,valueType,optionSetValue,optionSet[id]]]', 'idb' ) );
                         }
                         d.resolve();
                     });
@@ -405,7 +405,7 @@ function getMetaTrackeEntityAttributes( programs ){
     var def = $.Deferred();
     
     $.ajax({
-        url: '../api/trackedEntityAttributes.json',
+        url: '/api/trackedEntityAttributes.json',
         type: 'GET',
         data:'paging=false&filter=displayInListNoProgram:eq:true&fields=id,optionSet[id,version]'
     }).done( function(response) {          
@@ -455,7 +455,7 @@ function getTrackedEntityAttributes( data )
             dhis2.tc.store.get('attributes', teAttribute.id).done(function(obj) {
                 if((!obj || obj.version !== teAttribute.version) && attributesInPromise.indexOf(teAttribute.id) === -1) {
                     attributesInPromise.push( teAttribute.id );
-                    promise = promise.then( getD2Object( teAttribute.id, 'attributes', '../api/trackedEntityAttributes', 'fields=id,name,code,version,description,valueType,optionSetValue,confidential,inherit,sortOrderInVisitSchedule,sortOrderInListNoProgram,displayOnVisitSchedule,displayInListNoProgram,unique,programScope,orgunitScope,confidential,optionSet[id,version],trackedEntity[id,name]', 'idb' ) );
+                    promise = promise.then( getD2Object( teAttribute.id, 'attributes', '/api/trackedEntityAttributes', 'fields=id,name,code,version,description,valueType,optionSetValue,confidential,inherit,sortOrderInVisitSchedule,sortOrderInListNoProgram,displayOnVisitSchedule,displayInListNoProgram,unique,programScope,orgunitScope,confidential,optionSet[id,version],trackedEntity[id,name]', 'idb' ) );
                 }
                 d.resolve();
             });
@@ -501,7 +501,7 @@ function getOptionSetsForAttributes( data )
                 dhis2.tc.store.get('optionSets', teAttribute.optionSet.id).done(function(obj) {                            
                     if((!obj || obj.version !== teAttribute.optionSet.version) && optionSetsInPromise.indexOf(teAttribute.optionSet.id) === -1) {                                
                         optionSetsInPromise.push(teAttribute.optionSet.id);
-                        promise = promise.then( getD2Object( teAttribute.optionSet.id, 'optionSets', '../api/optionSets', 'fields=id,name,version,options[id,name,code]', 'idb' ) );
+                        promise = promise.then( getD2Object( teAttribute.optionSet.id, 'optionSets', '/api/optionSets', 'fields=id,name,version,options[id,name,code]', 'idb' ) );
                     }
                     d.resolve();
                 });
@@ -532,7 +532,7 @@ function getOrgUnitLevels()
         if(res.length > 0){
             return;
         }        
-        return getD2Objects('ouLevels', 'organisationUnitLevels', '../api/organisationUnitLevels.json', 'filter=level:gt:1&fields=id,name,level&paging=false', 'idb');        
+        return getD2Objects('ouLevels', 'organisationUnitLevels', '/api/organisationUnitLevels.json', 'filter=level:gt:1&fields=id,name,level&paging=false', 'idb');        
     }); 
 }
 
@@ -542,48 +542,48 @@ function getTrackedEntityAttributeGroups()
         if(res.length > 0){
             return;
         }        
-        return getD2Objects('attributeGroups', 'trackedEntityAttributeGroups', '../api/trackedEntityAttributeGroups.json', 'fields=id,name,trackedEntityAttributes[id]&paging=false', 'idb');        
+        return getD2Objects('attributeGroups', 'trackedEntityAttributeGroups', '/api/trackedEntityAttributeGroups.json', 'fields=id,name,trackedEntityAttributes[id]&paging=false', 'idb');        
     }); 
 }
 
 function getMetaProgramValidations( programs )
 {    
-    return getD2MetaObject(programs, 'programValidations', '../api/programValidations.json', 'paging=false&fields=id,program[id]');
+    return getD2MetaObject(programs, 'programValidations', '/api/programValidations.json', 'paging=false&fields=id,program[id]');
 }
 
 function getProgramValidations( programValidations )
 {
-    return checkAndGetD2Objects( programValidations, 'programValidations', '../api/programValidations', 'fields=id,name,displayName,operator,rightSide[expression,description],leftSide[expression,description],program[id]');
+    return checkAndGetD2Objects( programValidations, 'programValidations', '/api/programValidations', 'fields=id,name,displayName,operator,rightSide[expression,description],leftSide[expression,description],program[id]');
 }
 
 function getMetaProgramIndicators( programs )
 {    
-    return getD2MetaObject(programs, 'programIndicators', '../api/programIndicators.json', 'paging=false&fields=id,program[id]');
+    return getD2MetaObject(programs, 'programIndicators', '/api/programIndicators.json', 'paging=false&fields=id,program[id]');
 }
 
 function getProgramIndicators( programIndicators )
 {
-    return checkAndGetD2Objects( programIndicators, 'programIndicators', '../api/programIndicators', 'fields=id,name,code,shortName,displayInForm,expression,displayDescription,rootDate,description,valueType,DisplayName,filter,program[id]');
+    return checkAndGetD2Objects( programIndicators, 'programIndicators', '/api/programIndicators', 'fields=id,name,code,shortName,displayInForm,expression,displayDescription,rootDate,description,valueType,DisplayName,filter,program[id]');
 }
 
 function getMetaProgramRules( programs )
 {    
-    return getD2MetaObject(programs, 'programRules', '../api/programRules.json', 'paging=false&fields=id,program[id]');
+    return getD2MetaObject(programs, 'programRules', '/api/programRules.json', 'paging=false&fields=id,program[id]');
 }
 
 function getProgramRules( programRules )
 {
-    return checkAndGetD2Objects( programRules, 'programRules', '../api/programRules', 'fields=id,name,condition,description,program[id],programStage[id],priority,programRuleActions[id,content,location,data,programRuleActionType,programStageSection[id],dataElement[id],trackedEntityAttribute[id]]');
+    return checkAndGetD2Objects( programRules, 'programRules', '/api/programRules', 'fields=id,name,condition,description,program[id],programStage[id],priority,programRuleActions[id,content,location,data,programRuleActionType,programStageSection[id],dataElement[id],trackedEntityAttribute[id]]');
 }
 
 function getMetaProgramRuleVariables( programs )
 {    
-    return getD2MetaObject(programs, 'programRuleVariables', '../api/programRuleVariables.json', 'paging=false&fields=id,program[id]');
+    return getD2MetaObject(programs, 'programRuleVariables', '/api/programRuleVariables.json', 'paging=false&fields=id,program[id]');
 }
 
 function getProgramRuleVariables( programRuleVariables )
 {
-    return checkAndGetD2Objects( programRuleVariables, 'programRuleVariables', '../api/programRuleVariables', 'fields=id,name,displayName,programRuleVariableSourceType,program[id],programStage[id],dataElement[id],trackedEntityAttribute[id]');
+    return checkAndGetD2Objects( programRuleVariables, 'programRuleVariables', '/api/programRuleVariables', 'fields=id,name,displayName,programRuleVariableSourceType,program[id],programStage[id],dataElement[id],trackedEntityAttribute[id]');
 }
 
 function getD2MetaObject( programs, objNames, url, filter )
