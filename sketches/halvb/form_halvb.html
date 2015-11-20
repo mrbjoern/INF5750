@@ -1,0 +1,526 @@
+<head>
+    <link type="text/css" rel="stylesheet" href="style/style.css">
+    <link type="text/css" rel="stylesheet" media="screen" href="style/screen.css">
+
+    <link type="text/css" rel="stylesheet"  href="style/bootstrap.min.css">
+
+    <script type="text/javascript" src="js/angular.js"></script>
+</head>
+
+<div class="table-responsive ng-scope" ng-if="selectedEnrollment &amp;&amp; selectedEnrollment.enrollment">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <!-- ngRepeat: stage in programStages -->
+                <th class="active ng-binding ng-scope" style="vertical-align:middle" ng-repeat="stage in programStages">                            
+                    ANC 1st visit  
+
+                    <!-- event add/filter icon begins -->
+                    <span class="pull-right">
+                        <!-- ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                    </span>
+                    <!-- event add/filter icon ends -->
+                </th><!-- end ngRepeat: stage in programStages -->
+
+                <th class="active ng-binding ng-scope" style="vertical-align:middle" ng-repeat="stage in programStages">                            
+                    ANC Visit (2-4+)  
+
+                    <!-- event add/filter icon begins -->
+                    <span class="pull-right">
+
+                        <!-- ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                        <span class="ng-scope" ng-if="stageNeedsEvent(stage) &amp;&amp; selectedEnrollment.status === 'ACTIVE'">
+                            <a href="" title="Create new event" ng-click="showCreateEvent(stage)" style="vertical-align:middle"><i class="fa fa-plus"></i></a>
+                        </span><!-- end ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                    </span>
+                    <!-- event add/filter icon ends -->
+                </th><!-- end ngRepeat: stage in programStages -->
+
+                <th class="active ng-binding ng-scope" style="vertical-align:middle" ng-repeat="stage in programStages">                            
+                    Delivery  
+
+                    <!-- event add/filter icon begins -->
+                    <span class="pull-right">
+
+                        <!-- ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                    </span>
+                    <!-- event add/filter icon ends -->
+                </th><!-- end ngRepeat: stage in programStages -->
+
+                <th class="active ng-binding ng-scope" style="vertical-align:middle" ng-repeat="stage in programStages">                            
+                    PNC Visit  
+
+                    <!-- event add/filter icon begins -->
+                    <span class="pull-right">
+
+                        <!-- ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                        <span class="ng-scope" ng-if="stageNeedsEvent(stage) &amp;&amp; selectedEnrollment.status === 'ACTIVE'">
+                            <a href="" title="Create new event" ng-click="showCreateEvent(stage)" style="vertical-align:middle"><i class="fa fa-plus"></i></a>
+                        </span><!-- end ngIf: stageNeedsEvent(stage) && selectedEnrollment.status === 'ACTIVE' -->
+                    </span>
+                    <!-- event add/filter icon ends -->
+                </th><!-- end ngRepeat: stage in programStages -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <!-- ngRepeat: stage in programStages -->
+                <td class="ng-scope" ng-repeat="stage in programStages">
+                    <!-- ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                        <div class="event-container ng-binding alert-info" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                            Ngelehun CHC<br>
+                            2014-12-31<br>
+                            <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                        </div>
+                    </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <!-- ngIf: eventsByStage[stage.id].length > 1 && filterEvents -->
+                    <!-- ngIf: !eventsByStage[stage.id] || eventsByStage[stage.id].length < 1 -->
+                </td><!-- end ngRepeat: stage in programStages -->
+
+                <td class="ng-scope" ng-repeat="stage in programStages">
+                    <!-- ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                        <div class="event-container ng-binding alert-info  current-stage" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                            Ngelehun CHC<br>
+                            2012-12-30<br>
+                            <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                        </div>
+                    </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                        <div class="event-container ng-binding ng-hide alert-info" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                            Ngelehun CHC<br>
+                            2011-04-21<br>
+                            <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                        </div>
+                    </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                        <div class="event-container ng-binding ng-hide alert-success" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                            Ngelehun CHC<br>
+                            2007-03-31<br>
+                            <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                        </div>
+                    </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                    <!-- ngIf: eventsByStage[stage.id].length > 1 && filterEvents -->
+                    <span class="ng-scope" ng-if="eventsByStage[stage.id].length > 1 &amp;&amp; filterEvents">
+                        <!-- ngIf: currentEvent.programStage !== stage.id -->
+                        <!-- ngIf: stage.id === currentEvent.programStage -->
+
+                        <event-paginator class="ng-scope" ng-if="stage.id === currentEvent.programStage">
+                        <div class="paging-container">
+
+                            <div class="event-paging">
+
+                                <span class="ng-hide" ng-show="eventsByStage[stage.id].indexOf(currentEvent)  > 0">
+                                    <a href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][0])" title="First"> 
+                                        ««
+                                    </a>
+                                    <a href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][eventsByStage[stage.id].indexOf(currentEvent)-1])" title="Previous"> 
+                                        «
+                                    </a>                    
+                                </span>
+                                <span ng-hide="eventsByStage[stage.id].indexOf(currentEvent)  > 0">
+                                    <span title="First">««</span>
+                                    <span title="Previous">«</span>
+                                </span>
+
+                                <!-- ngRepeat: i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay() -->
+                                <a class="ng-binding ng-scope active" href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][i])" title="Event recorded on 2012-12-30 at Ngelehun CHC" ng-repeat="i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay()" ng-class="eventsByStage[stage.id].indexOf(currentEvent) === i &amp;&amp; 'active'">
+                                    1
+                                </a>
+                                <!-- end ngRepeat: i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay() -->
+                                <a class="ng-binding ng-scope" href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][i])" title="Event recorded on 2011-04-21 at Ngelehun CHC" ng-repeat="i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay()" ng-class="eventsByStage[stage.id].indexOf(currentEvent) === i &amp;&amp; 'active'">
+                                    2
+                                </a>
+                                <!-- end ngRepeat: i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay() -->
+                                <a class="ng-binding ng-scope" href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][i])" title="Event recorded on 2007-03-31 at Ngelehun CHC" ng-repeat="i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay()" ng-class="eventsByStage[stage.id].indexOf(currentEvent) === i &amp;&amp; 'active'">
+                                    3
+                                </a>
+                                <!-- end ngRepeat: i in [] | forLoop:paginator.lowerLimit():eventsByStage[stage.id].length  | limitTo:paginator.getToolBarDisplay() -->
+
+                                <span ng-show="eventsByStage[stage.id].indexOf(currentEvent)  < eventsByStage[stage.id].length - 1">
+                                    <a href="" ng-click="showDataEntryForEvent(eventsByStage[stage.id][eventsByStage[stage.id].indexOf(currentEvent) + 1])" title="Next"> 
+                                        »
+                                    </a>
+                                    <a href="" ng-click="showLastEventInStage(stage.id)" title="Last"> 
+                                        »»
+                                    </a>
+                                </span>
+                                <span class="ng-hide" ng-hide="eventsByStage[stage.id].indexOf(currentEvent) < eventsByStage[stage.id].length - 1">
+                                    <span class="next" title="Next">» </span>
+                                    <span class="last" title="Last">»»</span>
+                                </span>
+                            </div>
+                        </div>
+                    </event-paginator><!-- end ngIf: stage.id === currentEvent.programStage -->                             
+                </span><!-- end ngIf: eventsByStage[stage.id].length > 1 && filterEvents -->
+                <!-- ngIf: !eventsByStage[stage.id] || eventsByStage[stage.id].length < 1 -->
+            </td><!-- end ngRepeat: stage in programStages -->
+            <td class="ng-scope" ng-repeat="stage in programStages">
+                <!-- ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                    <div class="event-container ng-binding alert-info" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                        Ngelehun CHC<br>
+                        2015-04-23<br>
+                        <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                    </div>
+                </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                <!-- ngIf: eventsByStage[stage.id].length > 1 && filterEvents -->
+                <!-- ngIf: !eventsByStage[stage.id] || eventsByStage[stage.id].length < 1 -->
+            </td><!-- end ngRepeat: stage in programStages -->
+
+            <td class="ng-scope" ng-repeat="stage in programStages">
+                <!-- ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                <div class="inline-block ng-scope" ng-repeat="dhis2Event in eventsByStage[stage.id]">
+                    <div class="event-container ng-binding alert-info" ng-class="getEventStyle(dhis2Event)" ng-show="!currentPeriod[stage.id] || !filterEvents || currentPeriod[stage.id] &amp;&amp; currentPeriod[stage.id].event === dhis2Event.event" ng-click="showDataEntry(dhis2Event, false)">
+                        Ngelehun CHC<br>
+                        2014-12-31<br>
+                        <!-- ngIf: eventsByStage[stage.id].length > 1 && !filterEvents -->
+                    </div>
+                </div><!-- end ngRepeat: dhis2Event in eventsByStage[stage.id] -->
+                <!-- ngIf: eventsByStage[stage.id].length > 1 && filterEvents -->
+                <!-- ngIf: !eventsByStage[stage.id] || eventsByStage[stage.id].length < 1 -->
+            </td><!-- end ngRepeat: stage in programStages -->
+        </tr>
+    </tbody>
+</table>
+</div>
+
+
+
+
+<form class="ng-pristine ng-invalid ng-invalid-required ng-valid-number" name="outerForm" novalidate="">
+    <div class="ng-scope" ng-if="currentEvent">
+
+        <!-- event dates/scheduling begin -->
+        <!-- ngIf: (displayCustomForm !== 'TABLE') && !currentStage.periodType -->
+        <div class="row ng-scope" ng-if="(displayCustomForm !== 'TABLE') &amp;&amp; !currentStage.periodType">
+
+            <div class="col-md-6 ng-binding">
+                Report date
+                <input required="required" placeholder="yyyy-MM-dd" class="form-control ng-pristine ng-untouched ng-valid hasCalendarsPicker ng-valid-required" ng-class="{'input-success': eventDateSaved}" d2-date="" max-date="0" min-date="" ng-model="currentEvent.eventDate" ng-disabled="currentEvent.status === 'SKIPPED' || currentEvent.enrollmentStatus !== 'ACTIVE' || currentEvent.editingNotAllowed" ng-required="true" blur-or-change="saveEventDate()" type="text">
+                <!-- ngIf: invalidDate -->
+            </div>
+            
+            <div class="col-md-6">
+                <!-- ngIf: currentEvent.eventDate || currentEvent.status === 'SKIPPED' || currentEvent.dueDate -->
+                <span class="ng-binding ng-scope" ng-if="currentEvent.eventDate || currentEvent.status === 'SKIPPED' || currentEvent.dueDate">
+                    Due date
+                </span><!-- end ngIf: currentEvent.eventDate || currentEvent.status === 'SKIPPED' || currentEvent.dueDate -->
+                <!-- ngIf: !currentEvent.eventDate && currentEvent.status !== 'SKIPPED' && !selectedEntity.inactive -->                    
+
+                <input disabled="disabled" placeholder="yyyy-MM-dd" class="form-control ng-pristine ng-untouched ng-valid hasCalendarsPicker" ng-class="{'input-success': dueDateSaved}" d2-date="" ng-model="currentEvent.dueDate" blur-or-change="saveDueDate()" ng-disabled="currentEvent.eventDate || !schedulingEnabled || currentEvent.enrollmentStatus !== 'ACTIVE' || currentEvent.editingNotAllowed" type="text">
+                <!-- ngIf: invalidDate -->
+            </div>                        
+        </div><!-- end ngIf: (displayCustomForm !== 'TABLE') && !currentStage.periodType -->
+        <!-- event dates/scheduling end -->
+
+        <!-- coordinates begin -->
+        <!-- ngIf: currentStage.captureCoordinates && currentEvent.eventDate -->
+        <!-- coordinates begin -->
+
+        <!-- data entry form begins -->
+        <!-- ngIf: currentEvent.eventDate -->
+        <div class="ng-scope" ng-if="currentEvent.eventDate">                            
+            <!-- ngIf: displayCustomForm === 'CUSTOM' -->
+            <!-- ngIf: displayCustomForm === 'DEFAULT' --><!-- ngInclude: 'components/dataentry/default-form.html' -->
+            <div class="clear vertical-spacing ng-scope" ng-if="displayCustomForm === 'DEFAULT'" ng-include="'components/dataentry/default-form.html'">   
+                <!-- ngIf: currentEvent && !currentStage.programStageSections.length -->
+                <table class="dhis2-list-table-striped ng-scope" ng-if="currentEvent &amp;&amp; !currentStage.programStageSections.length">
+                    <thead>
+                        <tr>
+                            <th class="ng-binding" ng-bind="dataElementLabel">Data element</th>
+                            <th class="ng-binding" ng-bind="valueLabelPrevVisit">Previous value</th>
+                            <th class="ng-binding" ng-bind="valueLabel">Value</th>
+                            <!-- ngIf: allowProvidedElsewhereExists -->
+                        </tr>
+                    </thead>
+                    <tbody><!-- ngRepeat: prStDe in currentStage.programStageDataElements --><!-- ngIf: !isHidden(prStDe.dataElement.id) -->
+                        <tr class="col-md-12 ng-scope">
+                            <td>
+                                <span class="ng-binding">
+                                    ANC Visit
+                                </span>    
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+                                <div class="ng-scope">
+                                    <div class="ng-scope">
+                                        <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                                            
+                                            <select class="form-control">
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>4+</option>
+                                                <option>Ad-hoc</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-form>                
+                        </td>
+                    </tr>
+
+                    <tr class="col-md-12 ng-scope">
+                        <td>
+                            <span class="ng-binding">
+                                Weight (g)
+                            </span>    
+                        </td>
+                        <td>75349</td>
+                        <td>
+                            <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+                            <div class="ng-scope">
+                                <div class="ng-scope">
+                                    <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                                        
+                                        <input type="number" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-form>                
+                    </td>
+                </tr>
+
+                <tr class="col-md-12 ng-scope">
+                    <td>
+                        <span class="ng-binding">
+                            BP
+                        </span>    
+                    </td>
+                    <td>N/A</td>
+                    <td>
+                        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+                        <div class="ng-scope">
+                            <div class="ng-scope">
+                                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                                    
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-form>                
+                </td>
+            </tr>
+
+            <tr class="col-md-12 ng-scope">
+                <td>
+                    <span class="ng-binding">
+                        HB
+                    </span>    
+                </td>
+                <td>N/A</td>
+                <td>
+                    <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+                    <div class="ng-scope">
+                        <div class="ng-scope">
+                            <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                                
+                                <input type="number" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </ng-form>                
+            </td>
+        </tr>
+
+        <tr class="col-md-12 ng-scope">
+            <td>
+                <span class="ng-binding">
+                    Tetanus
+                </span>    
+            </td>
+            <td>1st</td>
+            <td>
+                <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+                <div class="ng-scope">
+                    <div class="ng-scope">
+                        <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                            
+                            <select class="form-control">
+                                <option>1st</option>
+                                <option>2nd</option>
+                                <option>3rd</option>
+                                <option>4th</option>
+                                <option>5th</option>
+                                <option>C</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </ng-form>                
+        </td>
+    </tr>
+
+    <tr class="col-md-12 ng-scope">
+        <td>
+            <span class="ng-binding">
+                IPT dose
+            </span>    
+        </td>
+        <td>IPT 1</td>
+        <td>
+            <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+            <div class="ng-scope">
+                <div class="ng-scope">
+                    <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                        
+                        <select class="form-control">
+                            <option>IPT 1</option>
+                            <option>IPT 2</option>
+                            <option>IPT 3</option>
+                            <option>On CTX</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </ng-form>                
+    </td>
+</tr>
+
+<tr class="col-md-12 ng-scope">
+    <td>
+        <span class="ng-binding">
+            Fe/Folic
+        </span>    
+    </td>
+    <td>Fe</td>
+    <td>
+        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+        <div class="ng-scope">
+            <div class="ng-scope">
+                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                    
+                    <select class="form-control">
+                        <option>Fe+Folic</option>
+                        <option>Fe</option>
+                        <option>Folic</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </ng-form>                
+</td>
+</tr>
+
+<tr class="col-md-12 ng-scope">
+    <td>
+        <span class="ng-binding">
+            TB Status
+        </span>    
+    </td>
+    <td>Negative</td>
+    <td>
+        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+        <div class="ng-scope">
+            <div class="ng-scope">
+                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                    
+                    <select class="form-control">
+                        <option>Suspect</option>
+                        <option>TB+ on treatment</option>
+                        <option>TB+ not on treatment</option>
+                        <option>N/A</option>
+                        <option>Negative</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </ng-form>                
+</td>
+</tr>
+
+<tr class="col-md-12 ng-scope">
+    <td>
+        <span class="ng-binding">
+            ARVs
+        </span>    
+    </td>
+    <td>NVP only</td>
+    <td>
+        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+        <div class="ng-scope">
+            <div class="ng-scope">
+                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                    
+                    <select class="form-control">
+                        <option>NVP only</option>
+                        <option>TDF/3TC/NVP -1</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </ng-form>                
+</td>
+</tr>
+
+<tr class="col-md-12 ng-scope">
+    <td>
+        <span class="ng-binding">
+            CD4 Count
+        </span>    
+    </td>
+    <td>1</td>
+    <td>
+        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+        <div class="ng-scope">
+            <div class="ng-scope">
+                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                    
+                    <input type="number" class="form-control">
+                </div>
+            </div>
+        </div>
+    </ng-form>                
+</td>
+</tr>
+
+<tr class="col-md-12 ng-scope">
+    <td>
+        <span class="ng-binding">
+            Visit comments (optional)
+        </span>    
+    </td>
+    <td>Lorem ipsum dolor sit amet</td>
+    <td>
+        <ng-form class="ng-pristine ng-invalid ng-invalid-required" name="innerForm">
+        <div class="ng-scope">
+            <div class="ng-scope">
+                <div required="required" style="width:100%;" class="ui-select-container select2 select2-container ng-invalid ng-invalid-required">
+                    
+                    <textarea class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </ng-form>                
+</td>
+</tr>
+</tbody>
+</table><!-- end ngIf: currentEvent && !currentStage.programStageSections.length -->
+
+<!-- ngIf: currentEvent && currentStage.programStageSections.length -->
+
+
+</div><!-- end ngIf: displayCustomForm === 'DEFAULT' -->
+</div><!-- end ngIf: currentEvent.eventDate -->    
+<!-- the table form is insensitive to the event date being present. In this situation the eventdate is set inside the table form -->
+<!-- ngIf: displayCustomForm === 'TABLE' -->
+
+<!-- data entry form ends -->
+
+<!-- data entry/event buttons begins -->
+<div class="form-group">
+    <div class="row"><hr></div>
+    <!-- ngIf: currentEvent.eventDate && (currentEvent.status === 'SCHEDULE' || currentEvent.status === 'ACTIVE' || currentEvent.status === 'VISITED') --><a href="" ng-click="completeIncompleteEvent()" class="btn btn-warning ng-binding ng-scope" ng-disabled="currentEvent.enrollmentStatus !== 'ACTIVE' || currentEvent.editingNotAllowed || currentEvent.orgUnit !== selectedOrgUnit.id" ng-if="currentEvent.eventDate &amp;&amp; (currentEvent.status === 'SCHEDULE' || currentEvent.status === 'ACTIVE' || currentEvent.status === 'VISITED')">Complete</a><!-- end ngIf: currentEvent.eventDate && (currentEvent.status === 'SCHEDULE' || currentEvent.status === 'ACTIVE' || currentEvent.status === 'VISITED') -->
+    <!-- ngIf: currentEvent.eventDate && currentEvent.status === 'COMPLETED' -->                       
+    <!-- ngIf: currentEvent.eventDate --><a href="" ng-click="validateEvent()" class="btn btn-info ng-binding ng-scope" ng-disabled="currentEvent.enrollmentStatus !== 'ACTIVE' || currentEvent.editingNotAllowed || currentEvent.orgUnit !== selectedOrgUnit.id" ng-if="currentEvent.eventDate">Validate</a><!-- end ngIf: currentEvent.eventDate -->                        
+    <!-- ngIf: !currentEvent.eventDate -->
+    <a href="" ng-click="deleteEvent()" ng-disabled="currentEvent.enrollmentStatus === 'COMPLETED' || currentEvent.editingNotAllowed || currentEvent.orgUnit !== selectedOrgUnit.id" class="btn btn-danger ng-binding">Delete</a>
+</div>
+<!-- data entry/event buttons ends -->
+
+</div><!-- end ngIf: currentEvent -->
+</form>
