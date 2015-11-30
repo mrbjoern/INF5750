@@ -20,6 +20,46 @@
                     <span ng-show="showHelpText[prStDe.dataElement.id]" ><br>{{prStDe.dataElement.description}}</span>
                 </a>     
             </td>
+	    <td>
+                <ng-form name="innerForm">
+		
+                    <div ng-switch="prStDe.dataElement.valueType">                      
+                        <div ng-switch-when="LONG_TEXT">
+                            <textarea rows="6"
+                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
+                                class="form-control"
+                                ng-model="currentEvent[prStDe.dataElement.id]" 
+                                ng-required={{prStDe.compulsory}} 
+                                ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
+                                ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
+                                name="foo">
+                            </textarea>
+                        </div>
+                  
+                  	
+                        <div ng-switch-default>
+                            <input type="text" 
+                                class="form-control"
+                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				)"
+                                ng-model="currentEvent[prStDe.dataElement.id]" 
+                                ng-required={{prStDe.compulsory}} 
+                                ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
+                                ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
+                                name="foo"/> 
+                        </div>
+                    </div>
+                    <div ng-messages="innerForm.foo.$error" ng-if="interacted(innerForm.foo)" class="required" ng-messages-include="../dhis-web-commons/angular-forms/error-messages.html">                                         
+                    </div>
+                    <div class="alert alert-warning alert-dismissible" role="alert" ng-if="warningMessages[prStDe.dataElement.id]">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{warningMessages[prStDe.dataElement.id]}}
+                    </div>
+                    <div class="alert alert-danger alert-dismissible" role="alert" ng-if="errorMessages[prStDe.dataElement.id]">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        {{errorMessages[prStDe.dataElement.id]}}
+                    </div>
+                </ng-form>                
+            </td>
             <td>
                 <ng-form name="innerForm">
                     <div ng-if="prStDe.dataElement.optionSetValue">
