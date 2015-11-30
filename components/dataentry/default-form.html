@@ -21,7 +21,7 @@
                 </a>     
             </td>
 	    <td>
-                <ng-form name="innerForm">
+                <ng-form name="innerForm"><!-- new column starts here-->
 		
                     <div ng-switch="prStDe.dataElement.valueType">                      
                         <div ng-switch-when="LONG_TEXT">
@@ -41,7 +41,7 @@
 			    <p>{{prStDe.compulsory}}</p>
                             <input type="text" 
                                 class="form-control"
-                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				)"
+                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
                                 ng-model="currentEvent[prStDe.dataElement.id]" 
                                 ng-required={{prStDe.compulsory}} 
                                 ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
@@ -60,7 +60,7 @@
                         {{errorMessages[prStDe.dataElement.id]}}
                     </div>
                 </ng-form>                
-            </td>
+            </td><!-- new column stops here-->
             <td>
                 <ng-form name="innerForm">
                     <div ng-if="prStDe.dataElement.optionSetValue">
