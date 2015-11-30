@@ -50,7 +50,7 @@ trackerCapture.controller('DataEntryController',
     $scope.valueLabel = $translate.instant('value');
     $scope.providedElsewhereLabel = $translate.instant('provided_elsewhere');
     //TRICOLOR change
-    $scope.prevValueLabel =  $translate.instant('previous_value');
+    $scope.prevValueLabel = $translate.instant('previous_value');
 
     var userProfile = SessionStorageService.get('USER_PROFILE');
     var storedBy = userProfile && userProfile.username ? userProfile.username : '';
