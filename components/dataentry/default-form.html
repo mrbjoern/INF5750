@@ -4,7 +4,7 @@
             <tr>
                 <th ng-bind="dataElementLabel">
                 </th>
-		<th ng-bind="prevValueLabel">
+		<th ng-bind="prevValueLabel" ng-if="currentStage.name == 'ANC Visit (2-4+)'">
                 </th>
                 <th ng-bind="valueLabel">
                 </th>
@@ -20,8 +20,7 @@
                     <span ng-show="showHelpText[prStDe.dataElement.id]" ><br>{{prStDe.dataElement.description}}</span>
                 </a>     
             </td>
-	    <td>
-        <div ng-if:"false">
+	          <td ng-if="currentStage.name == 'ANC Visit (2-4+)'">
                 <ng-form name="innerForm"><!-- new column starts here-->
 		
                     <div ng-switch="prStDe.dataElement.valueType">                      
@@ -45,7 +44,6 @@
                     </div>
                 </ng-form>                
             </td><!-- new column stops here-->
-          </div>
             <td>
                 <ng-form name="innerForm">
                     <div ng-if="prStDe.dataElement.optionSetValue">
