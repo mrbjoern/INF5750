@@ -21,34 +21,17 @@
                 </a>     
             </td>
 	    <td>
+        <div ng-if:"false">
                 <ng-form name="innerForm"><!-- new column starts here-->
 		
                     <div ng-switch="prStDe.dataElement.valueType">                      
                         <div ng-switch-when="LONG_TEXT">
-                            <!--textarea rows="6"
-                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
-                                class="form-control"
-                                ng-model="currentEvent[prStDe.dataElement.id]" 
-                                ng-required={{prStDe.compulsory}} 
-                                ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
-                                ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
-                                name="foo">
-                            </textarea-->
-                            {{currentEvent[prStDe.dataElement.id]}}
+                            {{previousEvent[prStDe.dataElement.id]}}
                         </div>
                   
                   	
                         <div ng-switch-default>
-			    <p>{{currentEvent[prStDe.dataElement.id]}}</p>
-                            <!--input type="text" 
-                                class="form-control"
-                                ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
-                                ng-model="currentEvent[prStDe.dataElement.id]" 
-                                ng-required={{prStDe.compulsory}} 
-                                ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
-                                ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
-                                name="foo"/>
-                        </div-->
+			                    <p>{{previousEvent[prStDe.dataElement.id]}}</p>
                     </div>
                     <div ng-messages="innerForm.foo.$error" ng-if="interacted(innerForm.foo)" class="required" ng-messages-include="../dhis-web-commons/angular-forms/error-messages.html">                                         
                     </div>
@@ -62,6 +45,7 @@
                     </div>
                 </ng-form>                
             </td><!-- new column stops here-->
+          </div>
             <td>
                 <ng-form name="innerForm">
                     <div ng-if="prStDe.dataElement.optionSetValue">
