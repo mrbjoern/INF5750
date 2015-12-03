@@ -161,7 +161,7 @@ var trackerCaptureControllers = angular.module('trackerCaptureControllers', [])
     $scope.getProgramAttributes = function(program){ 
         $scope.selectedProgram = program;
         $scope.trackedEntityList = null;
-        $scope.processAttributes();              
+        $scope.processAttributes();
     };
     
     $scope.processAttributes = function(){

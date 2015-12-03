@@ -25,7 +25,7 @@
 		
                     <div ng-switch="prStDe.dataElement.valueType">                      
                         <div ng-switch-when="LONG_TEXT">
-                            <textarea rows="6"
+                            <!--textarea rows="6"
                                 ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
                                 class="form-control"
                                 ng-model="currentEvent[prStDe.dataElement.id]" 
@@ -33,21 +33,22 @@
                                 ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
                                 ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
                                 name="foo">
-                            </textarea>
+                            </textarea-->
+                            {{currentEvent[prStDe.dataElement.id]}}
                         </div>
                   
                   	
                         <div ng-switch-default>
-			    <p>{{prStDe.compulsory}}</p>
-                            <input type="text" 
+			    <p>{{currentEvent[prStDe.dataElement.id]}}</p>
+                            <!--input type="text" 
                                 class="form-control"
                                 ng-class="getInputNotifcationClass(prStDe.dataElement.id,false, currentEvent)"
                                 ng-model="currentEvent[prStDe.dataElement.id]" 
                                 ng-required={{prStDe.compulsory}} 
                                 ng-disabled="selectedEnrollment.status !== 'ACTIVE' || currentEvent.editingNotAllowed || assignedFields[prStDe.dataElement.id]" 
                                 ng-blur="saveDatavalue(prStDe, innerForm.foo)" 
-                                name="foo"/> 
-                        </div>
+                                name="foo"/>
+                        </div-->
                     </div>
                     <div ng-messages="innerForm.foo.$error" ng-if="interacted(innerForm.foo)" class="required" ng-messages-include="../dhis-web-commons/angular-forms/error-messages.html">                                         
                     </div>
