@@ -185,8 +185,10 @@ trackerCapture.controller('DataEntryController',
         //$scope.allEventsSorted cannot be used, as it is not reflecting updates that happened within the current session
         var allSorted = [];
         for(var ps = 0; ps < $scope.programStages.length; ps++ ) {
-            for(var e = 0; e < $scope.eventsByStageAsc[$scope.programStages[ps].id].length; e++) {
-                allSorted.push($scope.eventsByStageAsc[$scope.programStages[ps].id][e]);
+            if(typeof $scope.eventsByStageAsc[$scope.programStages[ps].id] != 'undefined'){
+               for(var e = 0; e < $scope.eventsByStageAsc[$scope.programStages[ps].id].length; e++) {
+                    allSorted.push($scope.eventsByStageAsc[$scope.programStages[ps].id][e]);
+                }
             }
         }
         allSorted = orderByFilter(allSorted, '-sortingDate').reverse();
@@ -261,18 +263,10 @@ trackerCapture.controller('DataEntryController',
                 TrackerRulesFactory.getRules($scope.selectedProgram.id).then(function(rules){                    
                     $scope.allProgramRules = rules;
                     $scope.getEvents();
-                });           
-            });
+                });     
+            }); 
         }
     });
-
-    $scope.show = function(){
-        return $scope.currentStageEvents.length > 1;
-    };
-
-    $scope.getPreviousEvents = function(){
-
-    };
 
 
     $scope.getEvents = function () {
@@ -316,12 +310,18 @@ trackerCapture.controller('DataEntryController',
 
 
             });
-
-            $scope.previousEvent = $scope.currentEvent;
-
-            $scope.showDataEntry($scope.previousEvent, true);
-            
             $scope.showDataEntry($scope.currentEvent, true);
+        }
+    };
+
+    $scope.show = function(){
+        return $scope.currentStageEvents.length > 1;
+    };
+
+    $scope.getPreviousEvents = function(){
+
+        for(i = $scope.currentStage; i < $scope.eventsByStage.length; i++){
+            $scope.previousEvent[i] = $scope.eventsByStage[i+1];//We have to get previous events with eventsByStage
         }
     };
 
