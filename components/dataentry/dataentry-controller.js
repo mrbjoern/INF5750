@@ -214,7 +214,6 @@ trackerCapture.controller('DataEntryController',
         $scope.totalEvents = 0;
 
         $scope.previousEvent = null;
-        $scope.tempEvent = null;
 
         $scope.allowEventCreation = false;
         $scope.repeatableStages = [];
@@ -267,6 +266,10 @@ trackerCapture.controller('DataEntryController',
         }
     });
 
+    $scope.show = function(){
+        return $scope.currentStageEvents.length > 1;
+    };
+
     $scope.getPreviousEvents = function(){
 
     };
@@ -276,6 +279,7 @@ trackerCapture.controller('DataEntryController',
 
         var events = CurrentSelection.getSelectedTeiEvents();
         events = $filter('filter')(events, {program: $scope.selectedProgram.id});
+        
         if (angular.isObject(events)) {
             angular.forEach(events, function (dhis2Event) {
                 if (dhis2Event.enrollment === $scope.selectedEnrollment.enrollment && dhis2Event.orgUnit) {
@@ -309,11 +313,14 @@ trackerCapture.controller('DataEntryController',
                         }
                     }
                 }
+
+
             });
 
             $scope.previousEvent = $scope.currentEvent;
 
             $scope.showDataEntry($scope.previousEvent, true);
+            
             $scope.showDataEntry($scope.currentEvent, true);
         }
     };
