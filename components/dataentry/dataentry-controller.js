@@ -315,6 +315,7 @@ trackerCapture.controller('DataEntryController',
         }
     };
 
+    //TRICOLOR CHANGE
     $scope.show = function(){
         return $scope.currentStageEvents.length > 1;
     };
