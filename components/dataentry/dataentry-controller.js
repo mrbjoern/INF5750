@@ -51,6 +51,7 @@ trackerCapture.controller('DataEntryController',
     $scope.providedElsewhereLabel = $translate.instant('provided_elsewhere');
     //TRICOLOR change
     $scope.prevValueLabel = $translate.instant('previous_value');
+    $scope.firstANCVisitEvent = null;
 
     var userProfile = SessionStorageService.get('USER_PROFILE');
     var storedBy = userProfile && userProfile.username ? userProfile.username : '';
@@ -318,12 +319,12 @@ trackerCapture.controller('DataEntryController',
         return $scope.currentStageEvents.length > 1;
     };
 
-    $scope.getPreviousEvents = function(){
+   // $scope.getPreviousEvents = function(){
 
-        for(i = $scope.currentStage; i < $scope.eventsByStage.length; i++){
-            $scope.previousEvent[i] = $scope.eventsByStage[i+1];//We have to get previous events with eventsByStage
-        }
-    };
+      //  for(i = $scope.currentStage; i < $scope.eventsByStage.length; i++){
+      //      $scope.previousEvent[i] = $scope.eventsByStage[i+1];//We have to get previous events with eventsByStage
+      //  }
+  // };
 
     var setEventEditing = function (dhis2Event, stage) {
         return dhis2Event.editingNotAllowed = dhis2Event.orgUnit !== $scope.selectedOrgUnit.id || (stage.blockEntryForm && dhis2Event.status === 'COMPLETED') || $scope.selectedEntity.inactive;
@@ -443,11 +444,13 @@ trackerCapture.controller('DataEntryController',
                 $scope.currentEvent = null;
                 $scope.currentElement = {id: '', saved: false};
                 $scope.showDataEntryDiv = !$scope.showDataEntryDiv;
+		
             }
             else {
                 $scope.currentElement = {};                
                 $scope.currentEvent = event;
                 
+		//TRICOLOR CHANGE
                 var index = -1;
                 for (var i = 0; i < $scope.eventsByStage[event.programStage].length && index === -1; i++) {
                     if ($scope.eventsByStage[event.programStage][i].event === event.event) {
@@ -456,7 +459,18 @@ trackerCapture.controller('DataEntryController',
                 }                
                 if(index !== -1){
                     $scope.currentEvent = $scope.eventsByStage[event.programStage][index];
+		    if(index-1 > -1){
+			$scope.previousEvent = $scope.eventsByStage[event.programStage][index-1];
+		    }else if(index == 0){
+			$scope.previousEvent = $scope.firstANCVisitEvent;
+			//console.log(event.programStage.name);
+			
+		    }
+		     if( $scope.eventsByStage[event.programStage].length === 1){				
+			$scope.firstANCVisitEvent = $scope.currentEvent;
+		     }
                 }
+		
                 
                 $scope.showDataEntryDiv = true;
                 $scope.showEventCreationDiv = false;
@@ -511,7 +525,7 @@ trackerCapture.controller('DataEntryController',
         var period = {event: $scope.currentEvent.event, stage: $scope.currentEvent.programStage, name: $scope.currentEvent.sortingDate};
         $scope.currentPeriod[$scope.currentEvent.programStage] = period;
 
-        //Execute rules for the first time, to make the initial page appear correctly.
+        //Execute rules for the 	st time, to make the initial page appear correctly.
         //Subsequent calls will be made from the "saveDataValue" function.
         $scope.executeRules();
     };
@@ -1083,7 +1097,7 @@ trackerCapture.controller('DataEntryController',
 
         var period = {event: event.event, stage: event.programStage, name: event.sortingDate};
         $scope.currentPeriod[event.programStage] = period;
-
+   
         var event = null;
         for (var i = 0; i < $scope.eventsByStage[period.stage].length; i++) {
             if ($scope.eventsByStage[period.stage][i].event === period.event) {
