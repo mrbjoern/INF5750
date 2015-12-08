@@ -286,6 +286,13 @@ trackerCapture.controller('DataEntryController',
                     }
 
                     var eventStage = $scope.stagesById[dhis2Event.programStage];
+                    console.log(eventStage);
+
+                    if(eventStage.name === "ANC 1st visit") {
+                        console.log("SUCCESS!");
+                        $scope.firstANCVisitEvent = dhis2Event;
+                    }
+
                     if (angular.isObject(eventStage)) {
                         dhis2Event.name = eventStage.name;
                         dhis2Event.excecutionDateLabel = eventStage.excecutionDateLabel ? eventStage.excecutionDateLabel : $translate.instant('report_date');
@@ -453,25 +460,43 @@ trackerCapture.controller('DataEntryController',
                 
 		//TRICOLOR CHANGE
                 var index = -1;
+                var largestIndexByStage = -1;
+
+                // Get the largest index for the current stage.
+                for(var i = 0; i < $scope.eventsByStage[event.programStage].length; i++) {
+                    largestIndexByStage = i;
+                    console.log("Current stage: " + i);
+                }
+
+                // Get the current index for stage.
                 for (var i = 0; i < $scope.eventsByStage[event.programStage].length && index === -1; i++) {
+                    console.log("Index: " + i);
                     if ($scope.eventsByStage[event.programStage][i].event === event.event) {
                         index = i;
+                        console.log("Current index: " + index);
                     }
-                }                
+                }
+
                 if(index !== -1){
                     $scope.currentEvent = $scope.eventsByStage[event.programStage][index];
-		    if(index-1 > -1){
-			$scope.previousEvent = $scope.eventsByStage[event.programStage][index-1];
-		    }else if(index == 0){
-			$scope.previousEvent = $scope.firstANCVisitEvent;
-			//console.log(event.programStage.name);
-			
-		    }
-		     if( $scope.eventsByStage[event.programStage].length === 1){				
-			$scope.firstANCVisitEvent = $scope.currentEvent;
-		     }
+                    console.log("Event stage: " + $scope.eventsByStage[event.programStage].length);
+                    if(index > -1){
+	                    $scope.previousEvent = $scope.eventsByStage[event.programStage][index+1];
+                        if(index === largestIndexByStage && $scope.eventsByStage[event.programStage].length > 1) {
+                            console.log("The last index!");
+                            console.log($scope.firstANCVisitEvent);
+                            $scope.previousEvent = $scope.firstANCVisitEvent;
+                        }
+                    }
+                    /* 
+                    else if(index === largestIndexByStage){
+                        $scope.previousEvent = $scope.firstANCVisitEvent;
+			            console.log(event.programStage.name);
+		            }*/
+                    if( $scope.eventsByStage[event.programStage].length === 1){				
+                        $scope.firstANCVisitEvent = $scope.currentEvent;
+		            }
                 }
-		
                 
                 $scope.showDataEntryDiv = true;
                 $scope.showEventCreationDiv = false;
