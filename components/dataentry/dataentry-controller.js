@@ -322,15 +322,16 @@ trackerCapture.controller('DataEntryController',
 
     //TRICOLOR CHANGE
     $scope.show = function(){
-        return $scope.currentStageEvents.length > 1;
+        if($scope.currentStageEvents[0].name === "ANC Visit (2-4+)") {
+            return true;
+        }
+        else if($scope.currentStageEvents.length === 1) {
+            return false;
+        }
+        else {
+            return $scope.currentStageEvents.length > 1;
+        }
     };
-
-   // $scope.getPreviousEvents = function(){
-
-      //  for(i = $scope.currentStage; i < $scope.eventsByStage.length; i++){
-      //      $scope.previousEvent[i] = $scope.eventsByStage[i+1];//We have to get previous events with eventsByStage
-      //  }
-  // };
 
     var setEventEditing = function (dhis2Event, stage) {
         return dhis2Event.editingNotAllowed = dhis2Event.orgUnit !== $scope.selectedOrgUnit.id || (stage.blockEntryForm && dhis2Event.status === 'COMPLETED') || $scope.selectedEntity.inactive;
@@ -457,6 +458,8 @@ trackerCapture.controller('DataEntryController',
                 $scope.currentEvent = event;
                 
 		//TRICOLOR CHANGE
+                sortEventsByStage('ADD');
+
                 var index = -1;
                 var largestIndexByStage = -1;
 
@@ -476,14 +479,11 @@ trackerCapture.controller('DataEntryController',
                     $scope.currentEvent = $scope.eventsByStage[event.programStage][index];
                     if(index > -1){
 	                    $scope.previousEvent = $scope.eventsByStage[event.programStage][index+1];
+
                         if(index === largestIndexByStage && $scope.eventsByStage[event.programStage].length > 1) {
-                            if($scope.stagesById[event.programStage].name !== "PNC Visit") { // We don't want to show this for PNC Visit
+                            if($scope.stagesById[event.programStage].name === "ANC Visit (2-4+)") { // We don't want to show this for PNC Visit
                                 $scope.previousEvent = $scope.firstANCVisitEvent;
                             }
-                            else {
-                                // Hide previous here.
-                            }
-                            
                         }
                     }
                 }
